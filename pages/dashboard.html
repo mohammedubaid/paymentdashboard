@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp" ng-controller="mainController">
+	<head>
+		<title>NearFox</title>
+		<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+		<script src="js/jquery-1.11.0.min.js"></script>
+		<script src="js/angular.min.js"></script>
+		<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+		<link href="fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all"/>
+		<link href="css/bootstrap-table.css" rel="stylesheet" type="text/css" media="all"/>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/ui-bootstrap-tpls-1.3.3.min.js"></script>
+		<script src="js/bootstrap-select.min.js"></script>
+		<script src="js/bootstrap-table.js"></script>
+		<script src="js/app.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	                    <span class="sr-only">Toggle navigation</span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                    <span class="icon-bar"></span>
+	                </button>
+	                <a class="navbar-brand" href="index.html">Demo App</a>
+	            </div>
+
+	            <ul class="nav navbar-top-links navbar-right">
+	                <li class="dropdown">
+	                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+	                    </a>
+	                    <ul class="dropdown-menu dropdown-user">
+	                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+	                        </li>
+	                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+	                        </li>
+	                        <li class="divider"></li>
+	                        <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+	                        </li>
+	                    </ul>
+	                </li>
+	            </ul>
+
+	            <div class="navbar-default sidebar" role="navigation">
+	                <div class="sidebar-nav navbar-collapse">
+	                    <ul class="nav" id="side-menu">
+	                        <li>
+	                        	<a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard<span class="fa arrow"></span></a>
+	                        	<ul class="nav nav-second-level">
+	                                <li>
+	                                    <a href="index.html">Payments</a>
+	                                </li>
+                                </ul>
+	                        </li>
+	                        <li>
+	                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Rewards<span class="fa arrow"></span></a>
+	                        </li>
+	                        <li>
+	                            <a href="#"><i class="fa fa-dashboard fa-fw"></i>Wallets</a>
+	                        </li>
+	                        <li>
+	                            <a href="#"><i class="fa fa-dashboard fa-fw"></i>Bills</a>
+	                        </li>
+	                    </ul>
+	                </div>
+	            </div>
+	        </nav>
+	        <div id="page-wrapper">
+	            <div class="row page-heading">
+	                <div class="pull-left">
+	                    <h1 class="page-header">Dashboard</h1>
+                    </div>
+					<div class="clearfix"></div>
+                </div>
+	            <div class="row">
+	            	<div class="col-lg-12">
+	                    <div class="panel panel-default">
+	                        <div class="panel-heading">
+	                            Payments
+	                        </div>
+	                        <div class="panel-body">
+	                            <div class="table-responsive table-bordered table-hover">
+	                                <table id="payment-table" class="table">
+									 	<thead>
+										    <tr>
+												<th>Date</th>
+												<th>
+								                    <input type="text" ng-model="search.MerchantName" placeholder="Merchant Name" class="form-control" id="email">
+												</th>
+												<th>Merchant Order ID</th>
+												<th>
+													<input type="text" ng-model="search.PaymentID" placeholder="Payment ID" class="form-control" id="email">
+												</th>
+												<th>
+													<a href="#" ng-click="sortType = 'Amount'; sortReverse = !sortReverse">
+														Amount
+														<span ng-show="sortType == 'Amount' && !sortReverse" class="fa fa-caret-down"></span>
+														<span ng-show="sortType == 'Amount' && sortReverse" class="fa fa-caret-up"></span>
+													</a>
+												</th>
+												<th>
+													<select class="form-control" ng-model="search.AllPaymentStatus">
+														<option value="">All Payment Status</option>
+														<option value="Failed">Failed</option>
+														<option value="Completed">Completed</option>
+														<option value="Initiated">Initiated</option>
+														<option value="Partially Refunded">Partially Refunded</option>
+														<option value="Fully Refunded">Fully Refunded</option>
+														<option value="Resolved">Resolved</option>
+													</select>
+												</th>
+												<th>Action</th>
+										    </tr>
+									 	</thead>
+										<tbody>
+										    <tr ng-repeat="user in filteredData | orderBy:sortType:sortReverse | filter:search">
+										     	<td>{{user.date | date: 'M/d/yyyy HH:mm:ss'}}</td>
+										     	<td>{{user.MerchantName}}</td>
+										    	<td>{{user.MerchantOrderID}}</td>
+												<td>{{user.PaymentID}}</td>
+												<td>{{user.Amount}}</td>
+												<td>{{user.AllPaymentStatus}}</td>
+												<td>
+													<button type="button" class="btn btn-danger delete-btn" index={{$index}}>Remove</button>
+												</td>
+										    </tr>
+										</tbody>
+									</table>
+	                            </div>
+	                        </div>
+	                    </div>
+                	</div>
+	            </div>
+	            <div class="row pagination-div">
+	            	<uib-pagination total-items="dummyData.length" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false"></uib-pagination>	
+	            </div>
+        	    
+            </div>
+        </div>
+	</body>
+</html>
